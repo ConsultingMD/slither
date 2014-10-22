@@ -20,6 +20,7 @@ class Slither
           end
         end
       end
+      parsed
     end
 
     def parse(opts={}, &block)
@@ -30,7 +31,7 @@ class Slither
       @file.each_line do |line|
         line.chomp! if line
         next if line.empty?
-        batched_section_parse(parsed, line, line_number, batch_size, true, &block)
+        parsed = batched_section_parse(parsed, line, line_number, batch_size, true, &block)
         line_number += 1
       end
       yield parsed if block_given?
@@ -60,7 +61,7 @@ class Slither
 
         record.force_encoding @file.external_encoding
 
-        batched_section_parse(parsed, record, line_number, batch_size, false, &block)
+        parsed = batched_section_parse(parsed, record, line_number, batch_size, false, &block)
         line_number += 1
       end
       yield parsed if block_given?
