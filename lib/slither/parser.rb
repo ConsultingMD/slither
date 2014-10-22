@@ -33,6 +33,7 @@ class Slither
         batched_section_parse(parsed, line, line_number, batch_size, true, &block)
         line_number += 1
       end
+      yield parsed if block_given?
 
       @definition.sections.each do |section|
         raise(Slither::RequiredSectionNotFoundError, "Required section '#{section.name}' was not found.") unless parsed[section.name] || section.optional
@@ -62,6 +63,7 @@ class Slither
         batched_section_parse(parsed, record, line_number, batch_size, false, &block)
         line_number += 1
       end
+      yield parsed if block_given?
 
       @definition.sections.each do |section|
         raise(Slither::RequiredSectionNotFoundError, "Required section '#{section.name}' was not found.") unless parsed[section.name] || section.optional
